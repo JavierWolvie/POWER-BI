@@ -1,0 +1,108 @@
+
+DAX Assignment Report
+
+
+Prepared by: [Your Name]
+Date: [Insert Date]
+
+Overview:
+This report provides documentation for the successful completion of a DAX assignment using the Superstore dataset in Power BI. The work includes proper data modeling, creation of measures and calculated columns, and implementation of visuals to demonstrate insights. The assignment is divided into three main tasks: Basic Calculations, Conditional Logic, and Advanced Analysis.
+
+--------------------------------------------------
+Data Model:
+--------------------------------------------------
+The Superstore dataset includes the following core tables:
+- Orders
+- Customers
+- Products
+- Categories
+
+Relationships:
+- Orders[Customer ID] → Customers[Customer ID] (Many-to-One)
+- Orders[Product ID] → Products[Product ID] (Many-to-One)
+- Products[Category ID] → Categories[Category ID] (Many-to-One)
+
+All relationships are active and enforce referential integrity. The model is star-schema structured to support efficient analysis.
+
+--------------------------------------------------
+Task 1: Basic Calculations
+--------------------------------------------------
+
+1. Measure: Total Quantity Sold
+   DAX: Total Quantity = SUM(Orders[Quantity])
+
+   Visual: Bar chart displaying total quantity sold by Region.
+
+2. Measure: Average Sales per Order
+   DAX: Avg Sales per Order = AVERAGEX(VALUES(Orders[Order ID]), CALCULATE(SUM(Orders[Sales])))
+
+   Visual: Card visual showing the average sales per order.
+
+3. Measure: Total Number of Unique Customers
+   DAX: Unique Customers = DISTINCTCOUNT(Orders[Customer ID])
+
+   Visual: Table showing customer count by Region.
+
+--------------------------------------------------
+Task 2: Conditional Logic
+--------------------------------------------------
+
+1. Calculated Column: Shipping Mode Category
+   DAX: 
+   Shipping Mode Category = 
+   SWITCH(
+       TRUE(),
+       Orders[Ship Mode] IN {"Same Day", "First Class"}, "Fast",
+       Orders[Ship Mode] IN {"Standard Class", "Second Class"}, "Standard",
+       "Other"
+   )
+
+   Visual: I created a column to represent it.
+
+2. Measure: Profitable Sales
+   DAX: Profitable Sales = CALCULATE(SUM(Orders[Sales]), Orders[Profit] > 0)
+
+   Visual: A gauge comparing total sales vs profitable sales by Segment.
+
+--------------------------------------------------
+Task 3: Advanced Analysis
+--------------------------------------------------
+
+1. Measure: Profit Margin %
+   DAX: Profit Margin % = DIVIDE(SUM(Orders[Profit]), SUM(Orders[Sales]), 0)
+
+   Visual: Table listing Top 5 Sub-Categories by Profit Margin %, sorted descending.
+
+2. Measure: Technology Sales % of Total
+   DAX: 
+   Tech Sales % = 
+   DIVIDE(
+       CALCULATE(SUM(Orders[Sales]), Products[Category] = "Technology"),
+       SUM(Orders[Sales])
+   )
+
+   Visual: A gauge showing Technology sales percentage with supporting pie chart.
+
+3. Measure: Sales vs Same Quarter Last Year
+   DAX:
+   Sales Last Year Same Q = 
+   CALCULATE(
+       SUM(Orders[Sales]),
+       SAMEPERIODLASTYEAR(DATESQTR(Orders[Order Date]))
+   )
+
+   Visual: A gauge comparing current vs same quarter last year sales.
+
+--------------------------------------------------
+Field Names and Formatting:
+--------------------------------------------------
+- All measures use PascalCase for clarity and consistency.
+- Currency fields formatted as "Currency" with 2 decimal places.
+- Percentage fields formatted as "Percentage" with 1 decimal place.
+- Dates are in "dd-mmm-yyyy" format.
+
+--------------------------------------------------
+Conclusion:
+--------------------------------------------------
+This assignment implemented a robust data model with meaningful relationships, custom measures and columns using DAX, and visuals to provide actionable insights. The Power BI report is now optimized for exploring sales performance, customer behavior, and profitability trends across the Superstore dataset.
+
